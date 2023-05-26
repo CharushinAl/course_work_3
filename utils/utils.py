@@ -4,22 +4,21 @@ import os
 OPERATIONS_PATH = os.path.join('data', 'operations.json')
 
 
-def load_json(file_name: str):
+def load_json(file_name):
     """
-    Загружает операции из JSON
+    Load JSON file.
     :return: list of dictionaries.
     """
-    with open(file_name, 'r') as f:
-        operations = json.load(f)
-    return operations
+    with open(file_name, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return data
 
 
 def form_date(date):
     """
-    Меняет формат даты.
-    :param date: string.
-    :return: string format dd.mm.yy
-
+    Change date format
+    :param date: string
+    :return: string (format dd.mm.yy)
     """
     date_dmy = date.split('T')[0]
     year, month, day = date_dmy.split('-')
@@ -27,45 +26,45 @@ def form_date(date):
     return f'{day}.{month}.{year}'
 
 
-def number_masking(operation_data: str):
+def number_masking(operation_data):
     """
-
-    :param operation_data:
-    :return:
+    Masks transaction data.
+    :param operation_data: string
+    :return: string
     """
     if operation_data:
+        type_op = " ".join(operation_data.split()[:-1])
+        number = operation_data.split()[-1]
 
-        op_type = " ".join(operation_data.split()[:-1])
-        op_number = operation_data.split()[-1]
+    if len(number) == 16:
+        number_mask = f'{number[0:4]} {number[4:6]}** **** {number[12:]}'
 
-    if len(op_number) == 16:
-        number = f'{op_number[0:4]} {op_number[4:6]}** **** {op_number[12:]}'
+        return f'{type_op} {number_mask}'
 
-        return f'{op_type} {number}'
+    elif len(number) == 20:
+        number_mask = f'**{number[16:]}'
 
-    elif len(op_number) == 20:
-        number = f'**{op_number[16:]}'
-
-        return f'{op_type} {number}'
+        return f'{type_op} {number_mask}'
 
     return "N/A"
 
 
 def sort_operations(json=None):
     """
-    Сортирует список операций по дате.
-    :param json_dicts: list
-    :return: list
+    Sort transactions by date.
+    :param json: list of dictionaries
+    :return: list of dictionaries
     """
     sort_list = sorted(json, key=lambda x: x.get("date"), reverse=True)
 
     return sort_list
 
 
-def executed_operation(sort_list: list) -> list:
+def executed_operation(sort_list):
     """
-    :param sort_list: list
-    :return: list
+    Sorts and returns completed operations.
+    :param sort_list: list of dictionaries
+    :return: list of dictionaries
     """
     executed_op = [op for op in sort_list if 'state' in op and op["state"] == "EXECUTED"]
 

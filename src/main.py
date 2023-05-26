@@ -3,6 +3,10 @@ from utils.utils import OPERATIONS_PATH, load_json, number_masking, executed_ope
 
 
 def main():
+    """
+    Displays information about the last 5 operations performed.
+    :return: None
+    """
     # Загружаем из файла JSON в json_list
     json_list = load_json(OPERATIONS_PATH)
     # Сортируем список записывая выполненые операции в json_executed
