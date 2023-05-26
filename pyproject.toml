@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "course-work-3"
+version = "0.1.0"
+description = ""
+authors = ["Aleksandr Charushin <charushinas@gmail.com>"]
+readme = "README.md"
+packages = [{include = "course_work_3"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytest = "^7.3.1"
+
+[tool.poetry.scripts]
+main-run = 'course_wor_3.main:run'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

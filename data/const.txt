@@ -1,0 +1,1 @@
+OPERATIONS_PATH = os.path.join('data', 'operations.json')
